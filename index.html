@@ -3,182 +3,458 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TradePulse - Aktien & Trading Dashboard</title>
+  <title>TradePulse - Aktien & Trading Grundlagen</title>
   <style>
     :root {
-      --bg-dark: #0d1117;
-      --card-bg: #161b22;
-      --card-border: #30363d;
-      --accent-blue: #38bdf8;
-      --accent-purple: #a855f7;
-      --green: #22c55e;
-      --red: #ef4444;
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
+      --bg-color: #ffffff;
+      --card-bg: #f9fafb;
+      --border-color: #e5e7eb;
+      --text-main: #111827;
+      --text-muted: #4b5563;
+      --primary: #2563eb;
+      --green: #16a34a;
+      --red: #dc2626;
+      --purple: #7c3aed;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
     body {
-      background-color: var(--bg-dark);
+      background-color: var(--bg-color);
       color: var(--text-main);
-      padding: 20px;
+      line-height: 1.6;
     }
 
     header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--card-border);
-      margin-bottom: 25px;
     }
 
     .logo {
-      font-size: 24px;
+      font-size: 1.5rem;
       font-weight: 800;
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--primary);
+      text-decoration: none;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 15px;
-    }
-
-    .nav-btn {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      color: var(--text-main);
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 20px;
       font-weight: 600;
-      transition: all 0.2s;
+      font-size: 0.95rem;
     }
 
-    .nav-btn:hover {
-      border-color: var(--accent-blue);
-      color: var(--accent-blue);
+    nav a:hover {
+      color: var(--primary);
     }
 
-    .grid-layout {
+    .hero {
+      padding: 40px 20px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+      background: #fafafa;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--primary);
+      display: inline-block;
+      padding-bottom: 4px;
+    }
+
+    .grid-2 {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 20px;
-      margin-bottom: 25px;
+      margin-bottom: 40px;
     }
 
     .card {
       background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
       padding: 20px;
     }
 
-    .card h2 {
-      font-size: 18px;
-      margin-bottom: 15px;
-      color: var(--accent-blue);
+    .card h3 {
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin-bottom: 10px;
     }
 
-    .price-up { color: var(--green); font-weight: bold; }
-    .price-down { color: var(--red); font-weight: bold; }
+    .warning-card {
+      border-left: 4px solid var(--red);
+      background: #fef2f2;
+    }
 
-    .stock-item {
+    .warning-card h3 {
+      color: var(--red);
+    }
+
+    /* Simulation Box */
+    .sim-box {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 40px;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .sim-top {
       display: flex;
       justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid #21262d;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
-    .stock-item:last-child { border-bottom: none; }
+    .balance-display {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: var(--green);
+      background: #f0fdf4;
+      padding: 6px 14px;
+      border-radius: 6px;
+      border: 1px solid #bbf7d0;
+    }
+
+    .market-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stock-item {
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 15px;
+      background: var(--card-bg);
+    }
+
+    .stock-price {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 5px 0;
+    }
 
     .btn {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 8px 12px;
       border: none;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .btn-buy { background: var(--green); color: white; }
-    .btn-sell { background: var(--red); color: white; }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 8px;
       border-radius: 6px;
-      border: 1px solid var(--card-border);
-      background: #0d1117;
-      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.85rem;
     }
 
-    canvas {
+    .btn-buy { background: var(--green); color: white; width: 100%; margin-top: 8px; }
+    .btn-sell { background: var(--red); color: white; }
+    .btn-ai { background: var(--purple); color: white; padding: 10px 16px; margin-top: 10px; }
+
+    .table {
       width: 100%;
-      height: 200px;
-      background: #0d1117;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    .table th, .table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .ai-box {
+      border: 1px solid #ddd6fe;
+      background: #f5f3ff;
       border-radius: 8px;
-      margin-top: 10px;
+      padding: 20px;
+      margin-bottom: 40px;
+    }
+
+    .ai-response {
+      background: #ffffff;
+      border: 1px solid #ddd6fe;
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: 12px;
+      color: #4c1d95;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      padding: 20px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="logo">⚡ TradePulse</div>
-    <div class="nav-links">
-      <button class="nav-btn">Dashboard</button>
-      <button class="nav-btn">Watchlist</button>
-      <button class="nav-btn">Simulator</button>
-      <button class="nav-btn">Rechner</button>
+    <div class="header-container">
+      <a href="#" class="logo">📉 TradePulse</a>
+      <nav>
+        <a href="#erblaerung">Grundlagen</a>
+        <a href="#risiken">Risiken</a>
+        <a href="#simulator">Simulator</a>
+        <a href="#ki">KI-Analyse</a>
+      </nav>
     </div>
   </header>
 
-  <main>
-    <div class="grid-layout">
-      <!-- Live Market Overview -->
+  <section class="hero">
+    <h1>Aktienmarkt & Trading einfach erklärt</h1>
+    <p>Eine verständliche Übersicht zu Börsenmechanismen, Chancen, Risiken und einer interaktiven Markt-Simulation.</p>
+  </section>
+
+  <div class="container">
+
+    <!-- Grundlagen -->
+    <h2 class="section-title" id="erblaerung">Wie funktioniert der Markt?</h2>
+    <div class="grid-2">
       <div class="card">
-        <h2>🔥 Top Märkte</h2>
-        <div class="stock-item">
-          <span>Apple (AAPL)</span>
-          <span class="price-up">$185.40 (+1.8%)</span>
-        </div>
-        <div class="stock-item">
-          <span>Tesla (TSLA)</span>
-          <span class="price-down">$238.10 (-2.4%)</span>
-        </div>
-        <div class="stock-item">
-          <span>Bitcoin (BTC)</span>
-          <span class="price-up">$64,200 (+3.5%)</span>
-        </div>
-        <div class="stock-item">
-          <span>NVIDIA (NVDA)</span>
-          <span class="price-up">$122.50 (+4.1%)</span>
-        </div>
+        <h3>Was ist eine Aktie?</h3>
+        <p>Eine Aktie ist ein Wertpapier, das einen Anteil an einer Aktiengesellschaft (AG) darstellt. Wer eine Aktie kauft, wird Miteigentümer des Unternehmens. Steigt der Wert des Unternehmens, steigt i. d. R. auch der Aktienkurs.</p>
       </div>
 
-      <!-- Main Chart Widget -->
       <div class="card">
-        <h2>📈 Live Chart (AAPL)</h2>
-        <canvas id="stockChart"></canvas>
+        <h3>Wie entsteht der Preis?</h3>
+        <p>Der Preis einer Aktie wird durch Angebot und Nachfrage bestimmt. Wollen mehr Menschen eine Aktie kaufen als verkaufen, steigt der Preis. Wollen mehr Menschen verkaufen, fällt der Preis.</p>
       </div>
 
-      <!-- Trading Simulator -->
       <div class="card">
-        <h2>🎮 Trade Simulator</h2>
-        <p style="color: var(--text-muted);">Guthaben: <strong style="color: white;">10.000 €</strong></p>
-        <label style="font-size: 12px; margin-top: 10px; display: block; color: var(--text-muted);">Anzahl Aktien</label>
-        <input type="number" value="1" min="1">
-        <button class="btn btn-buy">Buy (Kaufen)</button>
-        <button class="btn btn-sell">Sell (Verkaufen)</button>
-      </div
+        <h3>Unterschied: Investieren vs. Trading</h3>
+        <p><strong>Investieren:</strong> Langfristiges Halten von Aktien über Jahre hinweg, um am stetigen Wachstum der Wirtschaft teilzuhaben.<br><strong>Trading:</strong> Kurzfristiges Kaufen und Verkaufen (oft innerhalb von Minuten oder Tagen), um von Preisschwankungen zu profitieren.</p>
+      </div>
+
+      <div class="card">
+        <h3>Was ist eine Dividende?</h3>
+        <p>Eine Dividende ist die Ausschüttung des Unternehmensgewinns an die Aktionäre. Sie dient als Belohnung dafür, dass Anleger ihr Kapital dem Unternehmen zur Verfügung stellen.</p>
+      </div>
+    </div>
+
+    <!-- Risiken -->
+    <h2 class="section-title" id="risiken">Risiken im Trading</h2>
+    <div class="grid-2">
+      <div class="card warning-card">
+        <h3>Gefahr des Totalverlusts</h3>
+        <p>Insbesondere beim kurzfristigen Trading mit Hebelprodukten oder bei hochspekulativen Aktien besteht das Risiko, das gesamte eingesetzte Kapital zu verlieren.</p>
+      </div>
+
+      <div class="card warning-card">
+        <h3>Psychologie & Emotionen</h3>
+        <p>Emotionen wie Gier und die Angst, etwas zu verpassen (FOMO), führen oft zu falschen Entscheidungen. Ein Disziplinmangel ist die häufigste Ursache für Verluste.</p>
+      </div>
+
+      <div class="card">
+        <h3>Diversifikation zur Risikominimierung</h3>
+        <p>Um Risiken zu senken, verteilt man sein Kapital auf verschiedene Branchen, Länder und Anlageklassen (Motto: Nicht alle Eier in einen Korb legen).</p>
+      </div>
+
+      <div class="card">
+        <h3>Marktschwankungen (Volatilität)</h3>
+        <p>Kurse verhalten sich oft unvorhersehbar. Nachrichten, Kriege oder wirtschaftliche Krisen können Märkte innerhalb weniger Minuten stark einbrechen lassen.</p>
+      </div>
+    </div>
+
+    <!-- Trading Simulator -->
+    <h2 class="section-title" id="simulator">Markt-Simulator</h2>
+    <div class="sim-box">
+      <div class="sim-top">
+        <div>
+          <h3>Live-Markt</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Kurse aktualisieren sich automatisch alle 3 Sekunden.</p>
+        </div>
+        <div class="balance-display">Guthaben: <span id="balance">10.000,00 €</span></div>
+      </div>
+
+      <div class="market-grid" id="market-grid"></div>
+
+      <h3 style="margin-top: 20px;">Mein Depot</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Aktie</th>
+            <th>Anzahl</th>
+            <th>Gesamtwert</th>
+            <th>Aktion</th>
+          </tr>
+        </thead>
+        <tbody id="portfolio-list">
+          <tr>
+            <td colspan="4" style="text-align: center; color: var(--text-muted);">Noch keine Positionen im Depot.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- KI Assistent -->
+    <h2 class="section-title" id="ki">KI-Depot-Assistent</h2>
+    <div class="ai-box">
+      <h3 style="color: var(--purple);">🤖 Portfolio-Analyse durch KI</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Analyse der aktuellen Depotverteilung auf Risikofaktoren.</p>
+      <button class="btn btn-ai" onclick="analyzePortfolio()">Depot jetzt analysieren</button>
+      <div class="ai-response" id="ai-response">Starte die Analyse, um Rückmeldung zu deiner Risikoverteilung zu erhalten.</div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>&copy; TradePulse - Informationsportal für Finanzen & Börsenmechanismen</p>
+  </footer>
+
+  <script>
+    let stocks = [
+      { id: 'AAPL', name: 'Apple Inc.', price: 180.00 },
+      { id: 'TSLA', name: 'Tesla Motors', price: 230.00 },
+      { id: 'NVDA', name: 'NVIDIA Corp.', price: 450.00 },
+      { id: 'MSFT', name: 'Microsoft', price: 320.00 }
+    ];
+
+    let balance = parseFloat(localStorage.getItem('tp_bal')) || 10000.00;
+    let portfolio = JSON.parse(localStorage.getItem('tp_port')) || {};
+
+    function updateView() {
+      document.getElementById('balance').textContent = balance.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+
+      const marketGrid = document.getElementById('market-grid');
+      marketGrid.innerHTML = '';
+
+      stocks.forEach(s => {
+        const div = document.createElement('div');
+        div.className = 'stock-item';
+        div.innerHTML = `
+          <strong>${s.name}</strong> (${s.id})
+          <div class="stock-price">${s.price.toFixed(2)} €</div>
+          <button class="btn btn-buy" onclick="buyStock('${s.id}')">Kaufen (1x)</button>
+        `;
+        marketGrid.appendChild(div);
+      });
+
+      const portList = document.getElementById('portfolio-list');
+      portList.innerHTML = '';
+      let activeCount = 0;
+
+      for (const [id, qty] of Object.entries(portfolio)) {
+        if (qty > 0) {
+          activeCount++;
+          const stock = stocks.find(s => s.id === id);
+          const total = (stock ? stock.price : 0) * qty;
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${id}</strong> (${stock ? stock.name : ''})</td>
+            <td>${qty} Stk.</td>
+            <td>${total.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</td>
+            <td><button class="btn btn-sell" onclick="sellStock('${id}')">Verkaufen (1x)</button></td>
+          `;
+          portList.appendChild(tr);
+        }
+      }
+
+      if (activeCount === 0) {
+        portList.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Noch keine Positionen im Depot.</td></tr>';
+      }
+
+      localStorage.setItem('tp_bal', balance);
+      localStorage.setItem('tp_port', JSON.stringify(portfolio));
+    }
+
+    function buyStock(id) {
+      const stock = stocks.find(s => s.id === id);
+      if (balance >= stock.price) {
+        balance -= stock.price;
+        portfolio[id] = (portfolio[id] || 0) + 1;
+        updateView();
+      } else {
+        alert('Nicht ausreichend Guthaben vorhanden!');
+      }
+    }
+
+    function sellStock(id) {
+      const stock = stocks.find(s => s.id === id);
+      if (portfolio[id] && portfolio[id] > 0) {
+        balance += stock.price;
+        portfolio[id] -= 1;
+        updateView();
+      }
+    }
+
+    function analyzePortfolio() {
+      const output = document.getElementById('ai-response');
+      output.innerHTML = '⏳ KI wertet Daten aus...';
+
+      setTimeout(() => {
+        let totalQty = 0;
+        let positions = 0;
+
+        for (const [id, qty] of Object.entries(portfolio)) {
+          if (qty > 0) {
+            totalQty += qty;
+            positions++;
+          }
+        }
+
+        if (totalQty === 0) {
+          output.innerHTML = '💡 <strong>Status:</strong> Das Depot ist leer. Bei voller Barmittel-Reserve besteht derzeit kein Marktrisiko, aber auch keine Gewinnchance.';
+        } else if (positions === 1) {
+          output.innerHTML = '⚠️ <strong>Klumpenrisiko:</strong> Du hast das gesamte Kapital in eine einzige Aktie investiert. Dies erhöht das Verlustrisiko erheblich.';
+        } else {
+          output.innerHTML = `✅ <strong>Diversifikation vorhanden:</strong> Dein Depot enthält ${totalQty} Aktien aus ${positions} verschiedenen Titeln. Die Streuung verringert das Gesamtrisiko.`;
+        }
+      }, 600);
+    }
+
+    setInterval(() => {
+      stocks.forEach(s => {
+        const change = (Math.random() - 0.49) * 2;
+        s.price = Math.max(1, s.price + change);
+      });
+      updateView();
+    }, 3000);
+
+    updateView();
+  </script>
+</body>
+</html>
