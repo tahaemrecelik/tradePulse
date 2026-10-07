@@ -129,6 +129,37 @@
       color: var(--red);
     }
 
+    /* Settings Box */
+    .setup-box {
+      background: #f3f4f6;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+
+    .setup-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .setup-group label {
+      display: block;
+      font-weight: bold;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    .setup-group input, .setup-group select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+
     /* Simulation Box */
     .sim-box {
       border: 1px solid var(--border-color);
@@ -148,14 +179,19 @@
       gap: 10px;
     }
 
-    .balance-display {
-      font-size: 1.3rem;
+    .stat-badge {
+      font-size: 1rem;
       font-weight: bold;
-      color: var(--green);
-      background: #f0fdf4;
       padding: 6px 14px;
       border-radius: 6px;
-      border: 1px solid #bbf7d0;
+      border: 1px solid var(--border-color);
+      background: #f3f4f6;
+    }
+
+    .stat-badge.green {
+      color: var(--green);
+      background: #f0fdf4;
+      border-color: #bbf7d0;
     }
 
     .market-grid {
@@ -190,6 +226,7 @@
     .btn-buy { background: var(--green); color: white; width: 100%; margin-top: 8px; }
     .btn-sell { background: var(--red); color: white; }
     .btn-ai { background: var(--purple); color: white; padding: 10px 16px; margin-top: 10px; }
+    .btn-reset { background: #6b7280; color: white; margin-top: 15px; }
 
     .table {
       width: 100%;
@@ -220,6 +257,41 @@
       color: #4c1d95;
     }
 
+    /* Consent Banner */
+    .consent-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #111827;
+      color: #ffffff;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      z-index: 1000;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+      flex-wrap: wrap;
+    }
+
+    .consent-banner p {
+      font-size: 0.9rem;
+      max-width: 800px;
+      color: #d1d5db;
+    }
+
+    .consent-btn {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
     footer {
       border-top: 1px solid var(--border-color);
       text-align: center;
@@ -231,27 +303,36 @@
 </head>
 <body>
 
+  <!-- Rechtliches-Banner -->
+  <div class="consent-banner" id="consentBanner">
+    <p>
+      <strong>Rechtlicher Hinweis & Nutzungsbedingungen:</strong> Diese Webseite dient ausschließlich zu Informations- und Bildungszwecken. Alle gezeigten Finanzkurse und Transaktionen im Simulator sind rein virtuell. Bitte bestätige die Nutzungsbedingungen, Risikohinweise und die Datenschutzerklärung, um fortzufahren.
+    </p>
+    <button class="consent-btn" onclick="acceptConsent()">Alle Bedingungen akzeptieren & Fortfahren</button>
+  </div>
+
   <header>
     <div class="header-container">
-      <a href="#" class="logo">📉 TradePulse</a>
+      <a href="#" class="logo">📈 TradePulse</a>
       <nav>
-        <a href="#erblaerung">Grundlagen</a>
+        <a href="#erklaerung">Grundlagen</a>
         <a href="#risiken">Risiken</a>
         <a href="#simulator">Simulator</a>
-        <a href="#ki">KI-Analyse</a>
+        <a href="#ki">KI Mehmet</a>
+        <a href="#rechtliches">Rechtliches</a>
       </nav>
     </div>
   </header>
 
   <section class="hero">
     <h1>Aktienmarkt & Trading einfach erklärt</h1>
-    <p>Eine verständliche Übersicht zu Börsenmechanismen, Chancen, Risiken und einer interaktiven Markt-Simulation.</p>
+    <p>Eine verständliche Übersicht zu Börsenmechanismen, Chancen, Risiken, rechtlichen Grundlagen und einer interaktiven Markt-Simulation.</p>
   </section>
 
   <div class="container">
 
     <!-- Grundlagen -->
-    <h2 class="section-title" id="erblaerung">Wie funktioniert der Markt?</h2>
+    <h2 class="section-title" id="erklaerung">Wie funktioniert der Markt?</h2>
     <div class="grid-2">
       <div class="card">
         <h3>Was ist eine Aktie?</h3>
@@ -300,18 +381,38 @@
 
     <!-- Trading Simulator -->
     <h2 class="section-title" id="simulator">Markt-Simulator</h2>
+    
+    <div class="setup-box">
+      <h3>⚙️ Einstellungen vor dem Start</h3>
+      <div class="setup-grid">
+        <div class="setup-group">
+          <label for="initBudget">Startbudget (200 € - 15.000 €):</label>
+          <input type="number" id="initBudget" min="200" max="15000" value="10000">
+        </div>
+        <div class="setup-group">
+          <label for="difficulty">Schwierigkeitsgrad:</label>
+          <select id="difficulty">
+            <option value="1">1: Einfach (4 Aktien) - Um einen Blick reinzuwerfen</option>
+            <option value="2" selected>2: Mittel (7 Aktien) - Bestes Modus um zu üben</option>
+            <option value="3">3: Realistisch (15 Werte) - Wie in echt</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-buy" style="margin-top: 15px; width: auto;" onclick="applySettings()">Einstellungen anwenden / Neu starten</button>
+    </div>
+
     <div class="sim-box">
       <div class="sim-top">
-        <div>
-          <h3>Live-Markt</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Kurse aktualisieren sich automatisch alle 3 Sekunden.</p>
-        </div>
-        <div class="balance-display">Guthaben: <span id="balance">10.000,00 €</span></div>
+        <div class="stat-badge green">Bar-Guthaben: <span id="balance">10.000,00 €</span></div>
+        <div class="stat-badge">Depotwert: <span id="portfolioValue">0,00 €</span></div>
+        <div class="stat-badge" style="color: var(--purple); border-color: #cbd5e1;">Gesamtkapital: <span id="totalCapital">10.000,00 €</span></div>
       </div>
+
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Kurse aktualisieren sich automatisch alle 3 Sekunden.</p>
 
       <div class="market-grid" id="market-grid"></div>
 
-      <h3 style="margin-top: 20px;">Mein Depot</h3>
+      <h3 style="margin-top: 25px;">Mein Depot</h3>
       <table class="table">
         <thead>
           <tr>
@@ -329,14 +430,39 @@
       </table>
     </div>
 
-    <!-- KI Assistent -->
-    <h2 class="section-title" id="ki">KI-Depot-Assistent</h2>
+    <!-- KI Assistent Mehmet -->
+    <h2 class="section-title" id="ki">KI-Depot-Assistent Mehmet</h2>
     <div class="ai-box">
-      <h3 style="color: var(--purple);">🤖 Portfolio-Analyse durch KI</h3>
+      <h3 style="color: var(--purple);">🤖 Portfolio-Analyse durch KI Mehmet</h3>
       <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Analyse der aktuellen Depotverteilung auf Risikofaktoren.</p>
-      <button class="btn btn-ai" onclick="analyzePortfolio()">Depot jetzt analysieren</button>
-      <div class="ai-response" id="ai-response">Starte die Analyse, um Rückmeldung zu deiner Risikoverteilung zu erhalten.</div>
+      <button class="btn btn-ai" onclick="analyzePortfolio()">Depot jetzt von KI Mehmet analysieren lassen</button>
+      <div class="ai-response" id="ai-response">Starte die Analyse, um Rückmeldung von KI Mehmet zu erhalten.</div>
     </div>
+
+    <!-- Rechtlicher Bereich -->
+    <h2 class="section-title" id="rechtliches">Rechtliches & Transparenz</h2>
+    <section style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 25px; margin-bottom: 40px; font-size: 0.9rem;">
+      
+      <h3 style="font-size: 1.1rem; color: #111827; margin-bottom: 8px;">Impressum</h3>
+      <p style="color: var(--text-muted); margin-bottom: 15px;">
+        <strong>Angaben gemäß § 5 DDG:</strong><br>
+        Taha Emre Celik<br>
+        Hardtstraße 29<br>
+        76676 Graben-Neudorf<br><br>
+        <strong>Kontakt:</strong><br>
+        E-Mail: celiktahacx@gmail.com
+      </p>
+
+      <h3 style="font-size: 1.1rem; color: #111827; margin-bottom: 8px;">Haftungsausschluss (Disclaimer)</h3>
+      <p style="color: var(--text-muted); margin-bottom: 15px;">
+        Die Inhalte dieser Website dienen ausschließlich Informations- und Bildungszwecken. Sie stellen keine Finanz-, Anlage- oder Rechtsberatung dar. Sämtliche im Simulator angezeigten Kurse, Aktienwerte und Transaktionen sind rein virtuell und dienen der Veranschaulichung wirtschaftlicher Börsenmechanismen.
+      </p>
+
+      <h3 style="font-size: 1.1rem; color: #111827; margin-bottom: 8px;">Datenschutzerklärung</h3>
+      <p style="color: var(--text-muted);">
+        Diese Website wird über GitHub Pages gehostet. Beim Aufruf der Webseite erfasst der Provider (GitHub Inc.) automatisch Server-Logfiles (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs). Auf dieser Webseite werden keine personenbezogenen Daten verarbeitet, keine Marketing-Cookies gesetzt und keine Tracking-Dienste eingesetzt. Lokale Einstellungen (wie der Simulator-Fortschritt) werden ausschließlich lokal in Ihrem Browser (`localStorage`) gespeichert.
+      </p>
+    </section>
 
   </div>
 
@@ -345,15 +471,72 @@
   </footer>
 
   <script>
-    let stocks = [
-      { id: 'AAPL', name: 'Apple Inc.', price: 180.00 },
-      { id: 'TSLA', name: 'Tesla Motors', price: 230.00 },
-      { id: 'NVDA', name: 'NVIDIA Corp.', price: 450.00 },
-      { id: 'MSFT', name: 'Microsoft', price: 320.00 }
+    const allStocks = [
+      { id: 'AAPL', name: 'Apple Inc.', price: 180.00, diff: 1 },
+      { id: 'MSFT', name: 'Microsoft', price: 320.00, diff: 1 },
+      { id: 'KO', name: 'Coca-Cola', price: 60.00, diff: 1 },
+      { id: 'SAP', name: 'SAP SE', price: 170.00, diff: 1 },
+      
+      { id: 'TSLA', name: 'Tesla Motors', price: 230.00, diff: 2 },
+      { id: 'NVDA', name: 'NVIDIA Corp.', price: 450.00, diff: 2 },
+      { id: 'ADS', name: 'Adidas AG', price: 210.00, diff: 2 },
+      
+      { id: 'AMZN', name: 'Amazon', price: 175.00, diff: 3 },
+      { id: 'GOOGL', name: 'Alphabet (Google)', price: 140.00, diff: 3 },
+      { id: 'NFLX', name: 'Netflix', price: 610.00, diff: 3 },
+      { id: 'BMW', name: 'BMW AG', price: 95.00, diff: 3 },
+      { id: 'BTC', name: 'Bitcoin (Crypto)', price: 620.00, diff: 3 },
+      { id: 'ETH', name: 'Ethereum (Crypto)', price: 340.00, diff: 3 },
+      { id: 'GOLD', name: 'Gold (Unze)', price: 2300.00, diff: 3 },
+      { id: 'OIL', name: 'Brent Rohöl', price: 85.00, diff: 3 }
     ];
 
+    let activeStocks = [];
     let balance = parseFloat(localStorage.getItem('tp_bal')) || 10000.00;
     let portfolio = JSON.parse(localStorage.getItem('tp_port')) || {};
+    let greetingIndex = parseInt(localStorage.getItem('tp_greet_idx')) || 0;
+
+    const greetings = [
+      "Gruß von Taha",
+      "Gruß von Ahmad",
+      "Gruß von Arda"
+    ];
+
+    // Consent Banner Check
+    if (localStorage.getItem('tp_consent') === 'true') {
+      document.getElementById('consentBanner').style.display = 'none';
+    }
+
+    function acceptConsent() {
+      localStorage.setItem('tp_consent', 'true');
+      document.getElementById('consentBanner').style.display = 'none';
+    }
+
+    function applySettings() {
+      const budgetInput = parseFloat(document.getElementById('initBudget').value);
+      if (isNaN(budgetInput) || budgetInput < 200 || budgetInput > 15000) {
+        alert('Bitte wähle ein Budget zwischen 200 € und 15.000 €!');
+        return;
+      }
+
+      const diffLevel = parseInt(document.getElementById('difficulty').value);
+      
+      balance = budgetInput;
+      portfolio = {};
+      
+      filterStocksByDiff(diffLevel);
+      updateView();
+    }
+
+    function filterStocksByDiff(level) {
+      if (level === 1) {
+        activeStocks = allStocks.slice(0, 4);
+      } else if (level === 2) {
+        activeStocks = allStocks.slice(0, 7);
+      } else {
+        activeStocks = [...allStocks];
+      }
+    }
 
     function updateView() {
       document.getElementById('balance').textContent = balance.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
@@ -361,7 +544,7 @@
       const marketGrid = document.getElementById('market-grid');
       marketGrid.innerHTML = '';
 
-      stocks.forEach(s => {
+      activeStocks.forEach(s => {
         const div = document.createElement('div');
         div.className = 'stock-item';
         div.innerHTML = `
@@ -375,12 +558,15 @@
       const portList = document.getElementById('portfolio-list');
       portList.innerHTML = '';
       let activeCount = 0;
+      let totalPortfolioVal = 0;
 
       for (const [id, qty] of Object.entries(portfolio)) {
         if (qty > 0) {
           activeCount++;
-          const stock = stocks.find(s => s.id === id);
-          const total = (stock ? stock.price : 0) * qty;
+          const stock = allStocks.find(s => s.id === id);
+          const currentStockPrice = stock ? stock.price : 0;
+          const total = currentStockPrice * qty;
+          totalPortfolioVal += total;
 
           const tr = document.createElement('tr');
           tr.innerHTML = `
@@ -397,23 +583,28 @@
         portList.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Noch keine Positionen im Depot.</td></tr>';
       }
 
+      document.getElementById('portfolioValue').textContent = totalPortfolioVal.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+
+      const grandTotal = balance + totalPortfolioVal;
+      document.getElementById('totalCapital').textContent = grandTotal.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+
       localStorage.setItem('tp_bal', balance);
       localStorage.setItem('tp_port', JSON.stringify(portfolio));
     }
 
     function buyStock(id) {
-      const stock = stocks.find(s => s.id === id);
+      const stock = allStocks.find(s => s.id === id);
       if (balance >= stock.price) {
         balance -= stock.price;
         portfolio[id] = (portfolio[id] || 0) + 1;
         updateView();
       } else {
-        alert('Nicht ausreichend Guthaben vorhanden!');
+        alert('Nicht ausreichend Bar-Guthaben vorhanden!');
       }
     }
 
     function sellStock(id) {
-      const stock = stocks.find(s => s.id === id);
+      const stock = allStocks.find(s => s.id === id);
       if (portfolio[id] && portfolio[id] > 0) {
         balance += stock.price;
         portfolio[id] -= 1;
@@ -423,7 +614,7 @@
 
     function analyzePortfolio() {
       const output = document.getElementById('ai-response');
-      output.innerHTML = '⏳ KI wertet Daten aus...';
+      output.innerHTML = '⏳ KI Mehmet wertet Daten aus...';
 
       setTimeout(() => {
         let totalQty = 0;
@@ -436,24 +627,33 @@
           }
         }
 
+        const currentGreeting = greetings[greetingIndex % greetings.length];
+        greetingIndex++;
+        localStorage.setItem('tp_greet_idx', greetingIndex);
+
+        let resultText = '';
         if (totalQty === 0) {
-          output.innerHTML = '💡 <strong>Status:</strong> Das Depot ist leer. Bei voller Barmittel-Reserve besteht derzeit kein Marktrisiko, aber auch keine Gewinnchance.';
+          resultText = '💡 <strong>Status von KI Mehmet:</strong> Das Depot ist leer. Du hältst 100% Bargeld. Kein Verlustrisiko, aber auch keine Ertragschancen.';
         } else if (positions === 1) {
-          output.innerHTML = '⚠️ <strong>Klumpenrisiko:</strong> Du hast das gesamte Kapital in eine einzige Aktie investiert. Dies erhöht das Verlustrisiko erheblich.';
+          resultText = '⚠️ <strong>Klumpenrisiko-Warnung:</strong> Du setzt dein gesamtes Kapital auf nur eine einzige Aktie. Das Risiko ist hoch!';
         } else {
-          output.innerHTML = `✅ <strong>Diversifikation vorhanden:</strong> Dein Depot enthält ${totalQty} Aktien aus ${positions} verschiedenen Titeln. Die Streuung verringert das Gesamtrisiko.`;
+          resultText = `✅ <strong>Gute Risikostreuung:</strong> Dein Depot enthält ${totalQty} Positionen aus ${positions} Werten. Das senkt das Gesamtrisiko.`;
         }
+
+        output.innerHTML = `${resultText}<br><br><em style="color: var(--purple); font-weight: bold;">- ${currentGreeting}</em>`;
       }, 600);
     }
 
     setInterval(() => {
-      stocks.forEach(s => {
-        const change = (Math.random() - 0.49) * 2;
+      activeStocks.forEach(s => {
+        const change = (Math.random() - 0.49) * (s.diff === 3 ? 6 : 2.5);
         s.price = Math.max(1, s.price + change);
       });
       updateView();
     }, 3000);
 
+    // Initial Start
+    filterStocksByDiff(2);
     updateView();
   </script>
 </body>
